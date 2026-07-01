@@ -1,0 +1,38 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /votos/{votoId} {
+
+      // Leitura liberada (necessária para o painel admin somar os votos).
+      // O painel é protegido por senha só na interface — não é uma
+      // trava de segurança forte, mas é suficiente para um evento
+      // interno de baixo risco.
+      allow read: if true;
+
+      // Sem identificação da pessoa (nome/matrícula), não é possível
+      // impedir voto duplicado no servidor. A trava de "1 voto" aqui é
+      // só no navegador (localStorage), do lado do app. O que estas
+      // regras garantem é que todo documento gravado tem o formato
+      // correto: 4 continentes válidos, sem repetir posição, e o
+      // votante não vota no próprio continente.
+      allow create: if request.resource.data.keys().hasAll([
+                         'continenteEleitor', 'primeiro', 'segundo', 'terceiro', 'timestamp'
+                       ])
+                    && request.resource.data.continenteEleitor in ['europa','americas','africa','asia']
+                    && request.resource.data.primeiro in ['europa','americas','africa','asia']
+                    && request.resource.data.segundo in ['europa','americas','africa','asia']
+                    && request.resource.data.terceiro in ['europa','americas','africa','asia']
+                    && request.resource.data.primeiro != request.resource.data.continenteEleitor
+                    && request.resource.data.segundo != request.resource.data.continenteEleitor
+                    && request.resource.data.terceiro != request.resource.data.continenteEleitor
+                    && request.resource.data.primeiro != request.resource.data.segundo
+                    && request.resource.data.primeiro != request.resource.data.terceiro
+                    && request.resource.data.segundo != request.resource.data.terceiro;
+
+      // Voto é permanente: sem editar, sem apagar.
+      allow update, delete: if false;
+    }
+  }
+}
