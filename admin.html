@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PGE em Campo 2026 · Painel Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="brand">
+    <div class="brand-badge">⚽</div>
+    <div class="brand-name">PGE EM CAMPO<small>PAINEL DE ADMINISTRAÇÃO</small></div>
+  </div>
+  <div class="bars">
+    <span class="b-europa"></span>
+    <span class="b-americas"></span>
+    <span class="b-africa"></span>
+    <span class="b-asia"></span>
+  </div>
+
+  <!-- ===================== TELA DE SENHA ===================== -->
+  <section class="screen active" id="screen-lock">
+    <div class="admin-lock">
+      <h1>Acesso restrito</h1>
+      <p class="subtitle">Digite a senha de administrador para ver os resultados.</p>
+      <div class="field">
+        <label for="input-senha">Senha</label>
+        <input type="password" id="input-senha" placeholder="••••••••">
+        <div class="field-error" id="error-senha">Senha incorreta.</div>
+      </div>
+      <button class="btn btn-primary" id="btn-entrar">Entrar</button>
+    </div>
+  </section>
+
+  <!-- ===================== DASHBOARD ===================== -->
+  <section class="screen" id="screen-dashboard">
+    <div class="screen-body">
+      <div class="refresh-row">
+        <span class="last-update" id="last-update">Carregando...</span>
+        <button class="icon-btn" id="btn-refresh" title="Atualizar">⟳</button>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-total-votos">–</div>
+          <div class="stat-label">VOTOS REGISTRADOS</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-lider">–</div>
+          <div class="stat-label">LÍDER ATUAL</div>
+        </div>
+      </div>
+
+      <div class="section-title">Ranking por pontos (3 · 2 · 1)</div>
+      <div class="ranking-list" id="ranking-list"></div>
+
+      <div class="section-title">Votos de 1º lugar por continente</div>
+      <div class="ranking-list" id="firstplace-list"></div>
+    </div>
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module" src="js/admin.js"></script>
+</body>
+</html>
